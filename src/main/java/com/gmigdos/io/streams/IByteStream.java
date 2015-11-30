@@ -34,9 +34,13 @@ public interface IByteStream {
 	
 	public int read(byte[] data, int count);
 	
+	public int read(byte[] data, int offset, int count);
+	
 	public int write(byte b);
 	
 	public int write(byte[] data);
+	
+	public int write(byte[] data, int len);
 	
 	public void closeWriterEndPoint();
 	

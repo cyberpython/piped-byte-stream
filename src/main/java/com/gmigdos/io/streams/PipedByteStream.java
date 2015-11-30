@@ -49,12 +49,16 @@ public class PipedByteStream implements IByteStream {
 	
 	@Override
 	public int read(byte[] data, int count) {
-		Arrays.fill(data, (byte)0);
+		return read(data, 0, count);
+	}
+	
+	@Override
+	public int read(byte[] data, int offset, int count) {
 		int totalRead = 0;
 		int bytesRead = -1;
 		try {
 			while(totalRead < count){
-				bytesRead = inputStream.read(data, totalRead, count - totalRead);
+				bytesRead = inputStream.read(data, offset+totalRead, count - totalRead);
 				if(bytesRead == -1){
 					return RET_CODE_EOF;
 				}
@@ -78,8 +82,13 @@ public class PipedByteStream implements IByteStream {
 	
 	@Override
 	public int write(byte[] data) {
+		return write(data, data.length);
+	}
+	
+	@Override
+	public int write(byte[] data, int len) {
 		try{
-			outputStream.write(data);
+			outputStream.write(data, 0, len);
 			return RET_CODE_OK;
 		}catch(IOException ioe){
 			return RET_CODE_ERROR;
